@@ -3,15 +3,16 @@ const path = require('path');
 const fs = require('fs');
 var uniqid = require('uniqid');
 
-router.get('/api/notes', async (req, res) => {
+router.get('/api/notes', (req, res) => {
    res.sendFile(path.join(__dirname, '../db/db.json'));
 });
 
 router.post('/api/notes', (req, res) => {
-    const db = JSON.parse(fs.readFileSync('db/db.json', 'utf8'));
+    let db = fs.readFileSync('db/db.json');
+    db = JSON.parse(db);
     res.json(db);
-    
-    const newNote = {
+
+    let newNote = {
         title: req.body.title,
         text: req.body.text,
         id: uniqid(),
